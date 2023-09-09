@@ -20,7 +20,7 @@ jobs:
 
     - name: Install Flask
       run: |
-        pip install flask
+        pip install -r requirements1.txt
 
     - name: Run Python script
       run: |
