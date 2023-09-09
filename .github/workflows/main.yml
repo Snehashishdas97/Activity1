@@ -1,4 +1,4 @@
-name: Python CI
+name: Python Flask Web App
 
 on:
   push:
@@ -10,16 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.x  # Replace with your desired Python version
-        
-    - name: Install dependencies
-      run: pip install -r requirements1.txt
-      
+        python-version: 3.x
+
+    - name: Install Flask
+      run: |
+        pip install flask
+
     - name: Run Python script
-      run: python hello-world1.py
+      run: |
+        python hello-world1.py &  # Start Flask app in the background
+        sleep 5  # Give the app time to start
+
+    - name: Test Flask app
+      run: |
+        curl -I http://localhost:8080  # Test the app
+        echo "Flask app is running at http://localhost:8080"
+
+    - name: Publish output link
+      run: |
+        echo "Web app is accessible at: http://localhost:8080"
