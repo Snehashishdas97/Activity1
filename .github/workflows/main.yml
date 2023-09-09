@@ -19,7 +19,7 @@ jobs:
         python-version: 3.x  # Replace with your desired Python version
         
     - name: Install dependencies
-      run: pip install -r requirements.txt
+      run: pip install -r requirements1.txt
       
     - name: Run Python script
       run: python hello-world1.py
