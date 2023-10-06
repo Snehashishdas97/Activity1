@@ -2,8 +2,8 @@ name: Release Workflow
 
 on:
   push:
-    tags:
-      - 'v*'
+    #tags:
+      #- 'v*'
     workflow_run:
       workflows: build-artifact.yml
       types:
