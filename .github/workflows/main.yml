@@ -1,13 +1,8 @@
 name: Release Workflow
 
-on:
-  # Uncomment the following lines if you want to trigger on pushes with tags
-  # push:
-  #   tags:
-  #     - 'v*'
-  
+on:  
   workflow_run:
-    workflows: ["build-artifact.yml"]  # Update with the correct workflow name
+    workflows: ["build-artifact.yml"] 
     types:
       - completed
 
