@@ -26,3 +26,4 @@ jobs:
       with:
         name: my-artifact
         path: .  
+        working-directory: ./Activity1/.github/workflows
