@@ -1,0 +1,25 @@
+name: Create artifact
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and Generate Artifact
+      run: |
+        pip install -r requirements.txt
+        python3 hello-world1.py
+
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: .
