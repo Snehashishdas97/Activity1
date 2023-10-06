@@ -16,7 +16,10 @@ jobs:
     - name: Build and Generate Artifact
       run: |
         pip install -r requirements1.txt
-        (python3 hello-world1.py &) && sleep 10 && kill $!
+        python3 hello-world1.py &
+        script_pid=$!
+        sleep 5
+        kill -9 $script_pid
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
