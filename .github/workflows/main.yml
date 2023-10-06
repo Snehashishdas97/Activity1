@@ -4,7 +4,11 @@ on:
   push:
     tags:
       - 'v*'
-
+    workflow_run:
+      workflows: build-artifact.yml
+      types:
+        - completed
+      
 jobs:
   release:
     runs-on: ubuntu-latest
