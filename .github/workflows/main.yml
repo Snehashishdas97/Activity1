@@ -1,10 +1,9 @@
 name: Release Workflow
 
-on:  
-  workflow_run:
-    workflows: ["build_artifact.yml"] 
+on:
+  release:
     types:
-      - completed
+      - created
 
 jobs:
   release:
@@ -14,29 +13,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: my-artifact
+
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            .
-          tag_name: ${{ github.ref_name }}
+            ./artifacts/*  # Upload all files in the artifacts directory
+          tag_name: ${{ github.event.release.tag_name }}
           draft: false
           prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-
-      - name: Download Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: my-artifact  # Make sure this matches the name in your upload step
-
-      - name: Upload Artifact as Release Asset
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: .  
-          asset_name: my-artifact
-          asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
