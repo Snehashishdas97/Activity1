@@ -1,40 +1,42 @@
-name: Python Flask Web App
+name: Release Workflow
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - 'v*'
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            .  
+          title: Release ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
       
-    - name: Docker build and push
-      uses: cloudposse/github-action-docker-build-push@1.13.1
-            
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
-
-    - name: Install Flask
-      run: |
-        pip install -r requirements1.txt
-
-    - name: Run Python script
-      run: |
-        python hello-world1.py &  # Start Flask app in the background
-        sleep 5  # Give the app time to start
-
-    - name: Test Flask app
-      run: |
-        curl -I http://localhost:8080  # Test the app
-        echo "Flask app is running at http://localhost:8080"
-
-    - name: Publish output link
-      run: |
-        echo "Web app is accessible at: http://localhost:8080"
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: my-artifact
+        
+      - name: Upload Artifact as Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: .
+          asset_name: my-artifact  
+          asset_content_type: application/octet-stream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
