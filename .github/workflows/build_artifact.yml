@@ -31,7 +31,7 @@ jobs:
           mkdir -p artifacts
 
           # Copy the built files to the artifact directory
-          cp -r ./* artifacts/
+          cp -r ../* artifacts/
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
