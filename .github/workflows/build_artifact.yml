@@ -15,7 +15,7 @@ jobs:
 
     - name: Build and Generate Artifact
       run: |
-        pip install -r requirements.txt
+        pip install -r requirements1.txt
         python3 hello-world1.py
 
     - name: Upload Artifact
