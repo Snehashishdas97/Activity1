@@ -1,29 +1,36 @@
-name: Create artifact
+name: Build and Generate Artifact
 
-on:
-  push:
-    branches:
-      - main
+on: [push] 
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Build and Generate Artifact
-      run: |
-        pip install -r requirements1.txt
-        python3 hello-world1.py &
-        script_pid=$!
-        sleep 5
-        kill -9 $script_pid
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8  # Adjust as needed
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: my-artifact
-        path: .  
-        working-directory: ./Activity1/.github/workflows
+      - name: Install dependencies
+        run: pip install -r requirements1.txt
+
+      - name: Build project
+        run: python hello-world1.py  # Replace with your build command
+
+      - name: Generate Artifact
+        run: |
+          # Create a directory for the artifact
+          mkdir -p artifacts
+
+          # Copy the built files to the artifact directory
+          cp -r * artifacts/
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: artifacts/
