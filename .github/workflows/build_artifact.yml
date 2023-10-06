@@ -19,7 +19,11 @@ jobs:
         run: pip install -r requirements1.txt
 
       - name: Build project
-        run: python hello-world1.py  # Replace with your build command
+        run: |
+          python hello-world1.py &
+          script_pid=$!
+          sleep 5
+          kill -9 $script_pid 
 
       - name: Generate Artifact
         run: |
