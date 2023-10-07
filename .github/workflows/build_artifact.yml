@@ -38,3 +38,7 @@ jobs:
         with:
           name: my-artifact
           path: artifacts/
+          
+      - name: Call release
+        uses: ./main.yml
+
