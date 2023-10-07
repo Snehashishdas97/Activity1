@@ -1,10 +1,9 @@
 name: Release Workflow
 
-on:
-  workflow_run:
-    workflows: [build_artifact.yml]
-    types:
-      - completed
+on: workflow_call
+    # workflows: [build_artifact.yml]
+    # types:
+    #   - completed
       
 jobs:
   release:
