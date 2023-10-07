@@ -2,7 +2,7 @@ name: Release Workflow
 
 on:
   workflow_run:
-    workflows: ["build_artifact.yml"]
+    workflows: [build_artifact.yml]
     types:
       - completed
       
