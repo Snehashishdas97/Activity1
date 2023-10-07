@@ -1,10 +1,11 @@
 name: Release Workflow
 
 on:
-  release:
+  workflow_run:
+    workflows: ["build_artifact.yml"]
     types:
-      - created
-
+      - completed
+      
 jobs:
   release:
     runs-on: ubuntu-latest
